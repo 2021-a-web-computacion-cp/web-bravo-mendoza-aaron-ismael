@@ -6,6 +6,40 @@ async function bootstrap() {
   await app.listen(3000);
 }
 bootstrap();
+
+/*
+abstract class Nombre {
+  public nombrePropiedad?: string;
+  private apellidoPropiedad: string = 'Bravo';
+  protected edad: number = 29; //number duck typing
+  propiedadPublica: string;
+  constructor(
+      propiedadPublicaParametro: string, //parametro
+      public propiedadRapido: string, //transforma una propiedad
+  ) {
+    this.propiedadPublica = propiedadPublicaParametro;
+    this.propiedadRapido;
+  }
+
+  public funcionPublica(parametroString: string): void{
+    //no tiene retorno
+  }
+
+  private funcionPrivada(parametroString: string, parametroNumber?: number){
+    // no tiene retorno
+  }
+
+  private funcionPublica(): number{
+    return 1;
+  }
+
+  static funcionEstatica(): string{
+    return 'string';
+  }
+}
+*/
+
+/*
 //package.json
 //npm run start
 //nodejs command prompt
@@ -53,3 +87,83 @@ interface UsuarioInterface{
   apellido: string;
   edad?: number; // ? => OPcional, valor por defecto undefined.
 }
+
+//punteros referencias
+let edadAntigua = 22;
+let otraEdad = edadAntigua; //valor
+edadAntigua += 1; //23
+otraEdad -= 1; //21
+
+//objeto
+let objetoEdad = {
+  edad: 22,
+};
+
+let otraEdadObjeto = objetoEdad; // referencia
+otraEdadObjeto.edad = otraEdadObjeto.edad + 1; //23
+objetoEdad.edad; //23
+objetoEdad.edad = objetoEdad.edad + 1; //24
+otraEdadObjeto.edad; //24
+let otraEdadObjetoClonado = {...objetoEdad}; //clonacion objetos
+const arregloEjemplo = [1,2,3];
+let arregloClonado = [...arregloEjemplo]; //clonación arreglos
+
+function funcionConNombre(){
+
+}
+
+const indice = arregloNumeros.findIndex(
+        (numero: number) => {  //funcion anonima porque no tiene nombre
+          const elValorEsIgualATres: boolean = numero == 3;
+          return elValorEsIgualATres // condicion -> boolean
+        }
+    );
+
+arregloNumeros[indice] = 6
+//agregar al final
+arregloNumeros.push(6)
+//agregar al principio
+arregloNumeros.unshift(0)
+
+//condiciones -> trutys y falsys
+const numeroOrden = 0;
+if(numeroOrden){
+  console.log('Truty');
+} else {
+  console.log('Falsy');
+}
+if (1) {
+  console.log('Truty');
+} else {
+  console.log('Falsy');
+}
+
+if (-1) {
+  console.log('Truty');
+} else {
+  console.log('Falsy');
+}
+
+if (""){
+  console.log('Truty');
+} else {
+  console.log('Falsy');
+}
+
+if ("a"){
+  console.log('Truty');
+} else {
+  console.log('Falsy');
+}
+
+if ({}){
+  console.log('Truty');
+} else {
+  console.log('Falsy');
+}
+
+if ({a:1}){
+  console.log('Truty');
+} else {
+  console.log('Falsy');
+}*/

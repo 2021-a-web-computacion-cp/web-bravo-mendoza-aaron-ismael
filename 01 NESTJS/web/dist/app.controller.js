@@ -19,6 +19,15 @@ let AppController = class AppController {
     getHello() {
         return this.appService.getHello();
     }
+    holaTexto() {
+        return 'HOlA TEXTO';
+    }
+    holaHTML() {
+        return '<h1>Hola HTML</h1>';
+    }
+    holaJson() {
+        return '{mensaje; "Hola json"}';
+    }
 };
 __decorate([
     common_1.Get(),
@@ -26,6 +35,27 @@ __decorate([
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", String)
 ], AppController.prototype, "getHello", null);
+__decorate([
+    common_1.Get('/texto'),
+    common_1.HttpCode(200),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", String)
+], AppController.prototype, "holaTexto", null);
+__decorate([
+    common_1.Get('/html'),
+    common_1.HttpCode(201),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", String)
+], AppController.prototype, "holaHTML", null);
+__decorate([
+    common_1.Get('/json'),
+    common_1.HttpCode(200),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", String)
+], AppController.prototype, "holaJson", null);
 AppController = __decorate([
     common_1.Controller(),
     __metadata("design:paramtypes", [app_service_1.AppService])
