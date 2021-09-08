@@ -6,4 +6,11 @@ export declare class AppController {
     holaTexto(): string;
     holaHTML(): string;
     holaJson(): string;
+    badRequest(): void;
+    internalError(): void;
+    setearCookieInsegura(req: any, res: any): void;
+    mostrarCookies(req: any): {
+        sinFirmar: any;
+        firmadas: any;
+    };
 }
