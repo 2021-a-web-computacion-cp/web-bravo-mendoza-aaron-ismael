@@ -39,8 +39,9 @@ let AppController = class AppController {
     }
     setearCookieInsegura(req, res) {
         res.cookie('galletaInsegura', 'Tengo hambre');
-        res.cookie('galleta-segura', 'Web :3', {
+        res.cookie('galleta-seguraYFirmada', 'Web :3', {
             secure: true,
+            signed: true,
         });
         res.send('ok');
     }
@@ -50,6 +51,18 @@ let AppController = class AppController {
             firmadas: req.signedCookies,
         };
         return mensaje;
+    }
+    parametrosConsulta(queryParams, params) {
+        return {
+            parametrosConsulta: queryParams,
+            parametrosRuta: params,
+        };
+    }
+    parametrosCuerpo(bodyParams, cabeceraPeticion) {
+        return {
+            parametrosCuerpo: bodyParams,
+            cabeceras: cabeceraPeticion
+        };
     }
 };
 __decorate([
@@ -106,6 +119,26 @@ __decorate([
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)
 ], AppController.prototype, "mostrarCookies", null);
+__decorate([
+    common_1.Get('parametros-consulta/:nombre'),
+    common_1.HttpCode(200),
+    common_1.Header('Cache-Control', 'none'),
+    common_1.Header('EPN', 'SISTEMAS'),
+    __param(0, common_1.Query()),
+    __param(1, common_1.Param()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object]),
+    __metadata("design:returntype", void 0)
+], AppController.prototype, "parametrosConsulta", null);
+__decorate([
+    common_1.Post('parametros-cuerpo'),
+    common_1.HttpCode(200),
+    __param(0, common_1.Body()),
+    __param(1, common_1.Headers()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object]),
+    __metadata("design:returntype", void 0)
+], AppController.prototype, "parametrosCuerpo", null);
 AppController = __decorate([
     common_1.Controller(),
     __metadata("design:paramtypes", [app_service_1.AppService])

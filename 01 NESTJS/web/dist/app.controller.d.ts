@@ -13,4 +13,12 @@ export declare class AppController {
         sinFirmar: any;
         firmadas: any;
     };
+    parametrosConsulta(queryParams: any, params: any): {
+        parametrosConsulta: any;
+        parametrosRuta: any;
+    };
+    parametrosCuerpo(bodyParams: any, cabeceraPeticion: any): {
+        parametrosCuerpo: any;
+        cabeceras: any;
+    };
 }
