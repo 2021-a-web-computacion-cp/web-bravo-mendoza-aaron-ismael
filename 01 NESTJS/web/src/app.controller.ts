@@ -48,20 +48,20 @@ export class AppController {
 
   @Get('setear-cookie-insegura')
   setearCookieInsegura(
-    @Req() req, //request peticion
-    @Res() res, //response respuesta
+      @Req() req, //request peticion
+      @Res() res, //response respuesta
   ) {
     res.cookie(
-      'galletaInsegura', //nombre
-      'Tengo hambre', //valor
+        'galletaInsegura', //nombre
+        'Tengo hambre', //valor
     );
     res.cookie(
-      'galleta-seguraYFirmada', //nombre
-      'Web :3', //valor
-      {
-        secure: true, //solo se transfiera por canales confiables https
-        signed: true,
-      },
+        'galleta-seguraYFirmada', //nombre
+        'Web :3', //valor
+        {
+          secure: true, //solo se transfiera por canales confiables https
+          signed: true,
+        },
     );
     res.send('ok'); //return de antes
   }
@@ -98,6 +98,6 @@ export class AppController {
     return {
       parametrosCuerpo: bodyParams,
       cabeceras: cabeceraPeticion
-    }
+    };
   }
 }
