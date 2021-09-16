@@ -3,6 +3,10 @@ export declare class AppController {
     private readonly appService;
     constructor(appService: AppService);
     getHello(): string;
+    sumar(req: any, parametrosConsulta: any, res: any): string;
+    restar(parametrosCuerpo: any, req: any, res: any): string;
+    multiplicar(parametrosRuta: any, req: any, res: any): string;
+    dividir(paramCabecera: any, req: any, res: any): string;
     holaTexto(): string;
     holaHTML(): string;
     holaJson(): string;

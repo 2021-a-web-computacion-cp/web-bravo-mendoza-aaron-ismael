@@ -22,6 +22,93 @@ let AppController = class AppController {
     getHello() {
         return this.appService.getHello();
     }
+    sumar(req, parametrosConsulta, res) {
+        if (req.signedCookies['total'] == undefined) {
+            var resultado = Number(parametrosConsulta.numeroUno) + Number(parametrosConsulta.numeroDos);
+            var diferencia = 100 - resultado;
+            res.cookie('total', diferencia.toString(), { signed: true });
+            return "Suma: " + resultado + ", Puntos: " + diferencia;
+        }
+        else {
+            var resultado = Number(parametrosConsulta.numeroUno) + Number(parametrosConsulta.numeroDos);
+            var diferencia = Number(req.signedCookies['total']) - resultado;
+            res.cookie('total', diferencia.toString(), { signed: true });
+            var cookieEntrada = Number(req.signedCookies['total']);
+            if (cookieEntrada <= 0) {
+                res.cookie('total', '100', { signed: true });
+                res.send("has ganado el juego");
+            }
+            else {
+                return "Suma: " + resultado + ", Puntos: " + diferencia;
+            }
+        }
+    }
+    restar(parametrosCuerpo, req, res) {
+        if (req.signedCookies['total'] == undefined) {
+            var resultado = Math.abs(Number(parametrosCuerpo.numeroUno) - Number(parametrosCuerpo.numeroDos));
+            var diferencia = 100 - resultado;
+            res.header('Resultado', resultado);
+            res.cookie('total', diferencia.toString(), { signed: true });
+            return "Resta: " + resultado + ", Puntos: " + diferencia;
+        }
+        else {
+            var resultado = Math.abs(Number(parametrosCuerpo.numeroUno) - Number(parametrosCuerpo.numeroDos));
+            var diferencia = Number(req.signedCookies['total']) - resultado;
+            res.header('Resultado', resultado);
+            res.cookie('total', diferencia.toString(), { signed: true });
+            var cookieEntrada = Number(req.signedCookies['total']);
+            if (cookieEntrada <= 0) {
+                res.cookie('total', '100', { signed: true });
+                res.send("has ganado el juego");
+            }
+            else {
+                return "Resta: " + resultado + ", Puntos: " + diferencia;
+            }
+        }
+    }
+    multiplicar(parametrosRuta, req, res) {
+        if (req.signedCookies['total'] == undefined) {
+            var resultado = Math.abs(Number(parametrosRuta.numeroUno) * Number(parametrosRuta.numeroDos));
+            var diferencia = 100 - resultado;
+            res.cookie('total', diferencia.toString(), { signed: true });
+            return "Multiplicación: " + resultado + ", Puntos: " + diferencia;
+        }
+        else {
+            var resultado = Math.abs(Number(parametrosRuta.numeroUno) * Number(parametrosRuta.numeroDos));
+            var diferencia = Number(req.signedCookies['total']) - resultado;
+            res.cookie('total', diferencia.toString(), { signed: true });
+            var cookieEntrada = Number(req.signedCookies['total']);
+            if (cookieEntrada <= 0) {
+                res.cookie('total', '100', { signed: true });
+                res.send("has ganado el juego");
+            }
+            else {
+                return "Multiplicación: " + resultado + ", Puntos: " + diferencia;
+            }
+        }
+    }
+    dividir(paramCabecera, req, res) {
+        if (req.signedCookies['total'] == undefined) {
+            var resultado = Number(paramCabecera.numerouno) / Number(paramCabecera.numerodos);
+            console.log(paramCabecera.numeroUno);
+            var diferencia = 100 - resultado;
+            res.cookie('total', diferencia.toString(), { signed: true });
+            return "División: " + resultado + ", Puntos: " + diferencia;
+        }
+        else {
+            var resultado = Math.abs(Number(paramCabecera.numerouno) / Number(paramCabecera.numerodos));
+            var diferencia = Number(req.signedCookies['total']) - resultado;
+            res.cookie('total', diferencia.toString(), { signed: true });
+            var cookieEntrada = Number(req.signedCookies['total']);
+            if (cookieEntrada <= 0) {
+                res.cookie('total', '100', { signed: true });
+                res.send("has ganado el juego");
+            }
+            else {
+                return "División: " + resultado + ", Puntos: " + diferencia;
+            }
+        }
+    }
     holaTexto() {
         return 'HOLA TEXTO';
     }
@@ -71,6 +158,46 @@ __decorate([
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", String)
 ], AppController.prototype, "getHello", null);
+__decorate([
+    common_1.Get('suma'),
+    common_1.HttpCode(200),
+    __param(0, common_1.Req()),
+    __param(1, common_1.Query()),
+    __param(2, common_1.Res({ passthrough: true })),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object, Object]),
+    __metadata("design:returntype", void 0)
+], AppController.prototype, "sumar", null);
+__decorate([
+    common_1.Post('resta'),
+    common_1.HttpCode(201),
+    __param(0, common_1.Body()),
+    __param(1, common_1.Req()),
+    __param(2, common_1.Res({ passthrough: true })),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object, Object]),
+    __metadata("design:returntype", void 0)
+], AppController.prototype, "restar", null);
+__decorate([
+    common_1.Put('multiplicacion/:numeroUno/:numeroDos'),
+    common_1.HttpCode(200),
+    __param(0, common_1.Param()),
+    __param(1, common_1.Req()),
+    __param(2, common_1.Res({ passthrough: true })),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object, Object]),
+    __metadata("design:returntype", void 0)
+], AppController.prototype, "multiplicar", null);
+__decorate([
+    common_1.Get('division'),
+    common_1.HttpCode(201),
+    __param(0, common_1.Headers()),
+    __param(1, common_1.Req()),
+    __param(2, common_1.Res({ passthrough: true })),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object, Object]),
+    __metadata("design:returntype", void 0)
+], AppController.prototype, "dividir", null);
 __decorate([
     common_1.Get('/texto'),
     common_1.HttpCode(200),
