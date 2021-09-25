@@ -44,15 +44,17 @@ let UsuarioService = class UsuarioService {
             data: usuario,
         });
     }
-    actualizarUno(paramActualizar) {
+    actualizarUno(parametrosActualizar) {
         return this.prisma.ePN_USUARIO.update({
-            data: paramActualizar.data,
-            where: paramActualizar.where,
+            data: parametrosActualizar.data,
+            where: {
+                id: parametrosActualizar.id,
+            },
         });
     }
-    eliminarUno(where) {
+    eliminarUno(id) {
         return this.prisma.ePN_USUARIO.delete({
-            where: where
+            where: { id: id },
         });
     }
 };

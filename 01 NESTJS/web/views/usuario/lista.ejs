@@ -35,6 +35,7 @@
             <th scope="col">Nombre</th>
             <th scope="col">Apellido</th>
             <th scope="col">Eliminar</th>
+            <th scope="col">Actualizar</th>
         </tr>
         </thead>
         <tbody>
@@ -43,7 +44,18 @@
                 <th><%= objeto.id %></th>
                 <th><%= objeto.nombre %></th>
                 <th><%= objeto.apellido %></th>
-                <th><button class='btn btn-danger'>Eliminar</button></th>
+                <th>
+                    <form   action='/usuario/eliminar-usuario/<%= objeto.id %>'
+                            method='post'>
+                        <button class='btn btn-danger'>Eliminar</button>
+                    </form>
+                </th>
+                <th>
+                    <form   action='/usuario/actualizar-usuario/<%= objeto.id %>'
+                            method='post'>
+                        <button class='btn btn-info'>Actualizar</button>
+                    </form>
+                </th>
             </tr>
         <% } ) %>
         </tbody>
