@@ -25,6 +25,10 @@ let UsuarioController = class UsuarioController {
         response.render('inicio');
     }
     async actualizarUno(res, parametrosRuta, parametrosCuerpo) {
+        const usuarioCrearDto = new usuario_crear_dto_1.UsuarioCrearDto();
+        usuarioCrearDto.nombre = parametrosCuerpo.nombre;
+        usuarioCrearDto.apellido = parametrosCuerpo.apellido;
+        usuarioCrearDto.fechaCreacion = parametrosCuerpo.fechaCreacion;
         const usuario = {
             nombre: parametrosCuerpo.nombre,
             apellido: parametrosCuerpo.apellido
@@ -33,13 +37,21 @@ let UsuarioController = class UsuarioController {
             id: Number(parametrosRuta.idUsuario),
             data: usuario
         };
-        try {
-            await this.usuarioService.actualizarUno(parametrosActualizar);
-            res.redirect('/usuario/lista-usuarios');
+        const errores = await class_validator_1.validate(usuarioCrearDto);
+        if (errores.length > 0) {
+            res.redirect('/usuario/lista-usuarios' + '?alerta=Ingrese bien los datos');
+            console.log(JSON.stringify(errores));
+            throw new common_1.BadRequestException('No envia bien los parametros');
         }
-        catch (error) {
-            console.log({ error: error, mensaje: 'Error en actualizar usuario' });
-            throw new common_1.InternalServerErrorException("Error en el servidor");
+        else {
+            try {
+                await this.usuarioService.actualizarUno(parametrosActualizar);
+                res.redirect('/usuario/lista-usuarios');
+            }
+            catch (error) {
+                console.log({ error: error, mensaje: 'Error en actualizar usuario' });
+                throw new common_1.InternalServerErrorException("Error en el servidor");
+            }
         }
     }
     async obtenerUno(res, parametrosRuta) {
@@ -64,14 +76,27 @@ let UsuarioController = class UsuarioController {
         }
     }
     async crearUsuarioFormulario(response, parametrosCuerpo) {
+        const usuarioCrearDto = new usuario_crear_dto_1.UsuarioCrearDto();
+        usuarioCrearDto.nombre = parametrosCuerpo.nombre;
+        usuarioCrearDto.apellido = parametrosCuerpo.apellido;
+        usuarioCrearDto.fechaCreacion = parametrosCuerpo.fechaCreacion;
         try {
-            const respuestaUsuario = await this.usuarioService.crearUno({
-                nombre: parametrosCuerpo.nombre,
-                apellido: parametrosCuerpo.apellido,
-            });
-            response.redirect('/usuario/vista-crear' +
-                '?mensaje=Se creo el usuario ' +
-                parametrosCuerpo.nombre);
+            const errores = await class_validator_1.validate(usuarioCrearDto);
+            if (errores.length > 0) {
+                response.redirect('/usuario/vista-crear' +
+                    '?alerta=Ingrese bien los datos ');
+                console.log(JSON.stringify(errores));
+                throw new common_1.BadRequestException('No envia bien los parametros');
+            }
+            else {
+                const respuestaUsuario = await this.usuarioService.crearUno({
+                    nombre: parametrosCuerpo.nombre,
+                    apellido: parametrosCuerpo.apellido,
+                });
+                response.redirect('/usuario/vista-crear' +
+                    '?mensaje=Se creo el usuario ' +
+                    parametrosCuerpo.nombre);
+            }
         }
         catch (error) {
             console.error(error);
@@ -82,10 +107,11 @@ let UsuarioController = class UsuarioController {
         response.render('usuario/crear', {
             datos: {
                 mensaje: parametrosConsulta.mensaje,
+                alerta: parametrosConsulta.alerta
             },
         });
     }
-    async listaUsuarios(response, parametrosConsulta) {
+    async listaUsuarios(response, parametrosConsulta, parametrosRuta) {
         try {
             const respuesta = await this.usuarioService.buscarMuchos({
                 skip: parametrosConsulta.skip ? +parametrosConsulta.skip : undefined,
@@ -94,7 +120,7 @@ let UsuarioController = class UsuarioController {
             });
             response.render('usuario/lista', {
                 datos: {
-                    usuarios: respuesta,
+                    usuarios: respuesta, alerta: parametrosConsulta.alerta
                 },
             });
         }
@@ -175,8 +201,9 @@ __decorate([
     common_1.Get('lista-usuarios'),
     __param(0, common_1.Res()),
     __param(1, common_1.Query()),
+    __param(2, common_1.Param()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, Object]),
+    __metadata("design:paramtypes", [Object, Object, Object]),
     __metadata("design:returntype", Promise)
 ], UsuarioController.prototype, "listaUsuarios", null);
 __decorate([

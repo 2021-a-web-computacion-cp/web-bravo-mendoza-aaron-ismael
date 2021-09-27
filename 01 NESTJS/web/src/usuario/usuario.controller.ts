@@ -29,6 +29,10 @@ export class UsuarioController {
 
     @Post('actualizar-usuario-formulario/:idUsuario')
     async actualizarUno(@Res() res, @Param() parametrosRuta, @Body() parametrosCuerpo){
+        const usuarioCrearDto = new UsuarioCrearDto();
+        usuarioCrearDto.nombre = parametrosCuerpo.nombre;
+        usuarioCrearDto.apellido = parametrosCuerpo.apellido;
+        usuarioCrearDto.fechaCreacion = parametrosCuerpo.fechaCreacion;
         const usuario:Prisma.EPN_USUARIOUpdateInput ={
             nombre: parametrosCuerpo.nombre,
             apellido: parametrosCuerpo.apellido
@@ -37,13 +41,22 @@ export class UsuarioController {
             id: Number(parametrosRuta.idUsuario),
             data: usuario
         };
-        try{
-            await this.usuarioService.actualizarUno(parametrosActualizar);
-            res.redirect('/usuario/lista-usuarios');
+        const errores = await  validate(usuarioCrearDto);
+        if(errores.length > 0){
+            res.redirect('/usuario/lista-usuarios'+'?alerta=Ingrese bien los datos');
+            console.log(JSON.stringify(errores));
+            throw new BadRequestException('No envia bien los parametros')
+
         }
-        catch(error){
-            console.log({error: error, mensaje: 'Error en actualizar usuario'});
-            throw new InternalServerErrorException("Error en el servidor");
+        else{
+            try{
+                await this.usuarioService.actualizarUno(parametrosActualizar);
+                res.redirect('/usuario/lista-usuarios');
+            }
+            catch(error){
+                console.log({error: error, mensaje: 'Error en actualizar usuario'});
+                throw new InternalServerErrorException("Error en el servidor");
+            }
         }
     }
 
@@ -75,16 +88,30 @@ export class UsuarioController {
 
     @Post('crear-usuario-formulario')
     async crearUsuarioFormulario(@Res() response, @Body() parametrosCuerpo) {
+        const usuarioCrearDto = new UsuarioCrearDto();
+        usuarioCrearDto.nombre = parametrosCuerpo.nombre;
+        usuarioCrearDto.apellido = parametrosCuerpo.apellido;
+        usuarioCrearDto.fechaCreacion = parametrosCuerpo.fechaCreacion;
         try {
-            const respuestaUsuario = await this.usuarioService.crearUno({
-                nombre: parametrosCuerpo.nombre,
-                apellido: parametrosCuerpo.apellido,
-            });
-            response.redirect(
-                '/usuario/vista-crear' +
-                '?mensaje=Se creo el usuario ' +
-                parametrosCuerpo.nombre,
-            );
+            const errores = await validate(usuarioCrearDto);
+            if(errores.length > 0){
+                response.redirect(
+                    '/usuario/vista-crear' +
+                    '?alerta=Ingrese bien los datos ');
+                console.log(JSON.stringify(errores));
+                throw new BadRequestException('No envia bien los parametros')
+            }
+            else{
+                const respuestaUsuario = await this.usuarioService.crearUno({
+                    nombre: parametrosCuerpo.nombre,
+                    apellido: parametrosCuerpo.apellido,
+                });
+                response.redirect(
+                    '/usuario/vista-crear' +
+                    '?mensaje=Se creo el usuario ' +
+                    parametrosCuerpo.nombre,
+                );
+            }
         } catch (error) {
             console.error(error);
             throw new InternalServerErrorException('Error creando usuario');
@@ -96,12 +123,13 @@ export class UsuarioController {
         response.render('usuario/crear', {
             datos: {
                 mensaje: parametrosConsulta.mensaje,
+                alerta: parametrosConsulta.alerta
             },
         });
     }
 
     @Get('lista-usuarios')
-    async listaUsuarios(@Res() response, @Query() parametrosConsulta) {
+    async listaUsuarios(@Res() response, @Query() parametrosConsulta, @Param() parametrosRuta) {
         try {
             // validar parametros de consulta con un dto
             const respuesta = await this.usuarioService.buscarMuchos({
@@ -111,7 +139,7 @@ export class UsuarioController {
             });
             response.render('usuario/lista', {
                 datos: {
-                    usuarios: respuesta,
+                    usuarios: respuesta, alerta: parametrosConsulta.alerta
                 },
             });
         } catch (error) {

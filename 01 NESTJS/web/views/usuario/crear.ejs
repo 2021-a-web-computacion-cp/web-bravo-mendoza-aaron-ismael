@@ -9,6 +9,12 @@
         </div>
     <%}%>
 
+    <% const existeAlerta = typeof datos.alerta !== 'undefined'%>
+    <% if(existeAlerta){%>
+        <div class="alert alert-danger" role="alert">
+            <%= datos.alerta%>
+        </div>
+    <%}%>
     <h1>Crear usuario</h1>
     <form action='/usuario/crear-usuario-formulario' method='post'>
         <div class="mb-3">
