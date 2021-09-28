@@ -17,7 +17,42 @@ let PlanetaService = class PlanetaService {
         this.prisma = prisma;
     }
     buscarMuchos(parametrosBusqueda) {
-        const or = parametrosBusqueda.busqueda;
+        const or = parametrosBusqueda.busqueda
+            ? {
+                OR: [
+                    { nombre: { contains: parametrosBusqueda.busqueda } }
+                ]
+            }
+            : {};
+        console.log(or);
+        return this.prisma.planeta.findMany({
+            where: or,
+            take: Number(parametrosBusqueda.take) || undefined,
+            skip: Number(parametrosBusqueda.skip) || undefined
+        });
+    }
+    buscarUno(id) {
+        return this.prisma.planeta.findUnique({
+            where: { id: id }
+        });
+    }
+    crearUno(planeta) {
+        return this.prisma.planeta.create({
+            data: planeta
+        });
+    }
+    actualizarUno(parametrosActualizar) {
+        return this.prisma.planeta.update({
+            data: parametrosActualizar.data,
+            where: {
+                id: parametrosActualizar.id
+            }
+        });
+    }
+    eliminarUno(id) {
+        return this.prisma.planeta.delete({
+            where: { id: id }
+        });
     }
 };
 PlanetaService = __decorate([

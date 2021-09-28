@@ -6,13 +6,12 @@ import {
     InternalServerErrorException,
     Param,
     Post,
-    Put, Query, Res
+    Query, Res
 } from "@nestjs/common";
 import { UsuarioService } from "./usuario.service";
 import { validate } from "class-validator";
 import { UsuarioCrearDto } from "./dto/usuario.crear.dto";
 import { Prisma } from "@prisma/client";
-import {response} from "express";
 
 //http://localhost:3000/usuario/
 @Controller('usuario')
@@ -34,8 +33,8 @@ export class UsuarioController {
         usuarioCrearDto.apellido = parametrosCuerpo.apellido;
         usuarioCrearDto.fechaCreacion = parametrosCuerpo.fechaCreacion;
         const usuario:Prisma.EPN_USUARIOUpdateInput ={
-            nombre: parametrosCuerpo.nombre,
-            apellido: parametrosCuerpo.apellido
+            nombre: usuarioCrearDto.nombre,
+            apellido: usuarioCrearDto.apellido
         };
         const parametrosActualizar = {
             id: Number(parametrosRuta.idUsuario),
@@ -103,8 +102,8 @@ export class UsuarioController {
             }
             else{
                 const respuestaUsuario = await this.usuarioService.crearUno({
-                    nombre: parametrosCuerpo.nombre,
-                    apellido: parametrosCuerpo.apellido,
+                    nombre: usuarioCrearDto.nombre,
+                    apellido: usuarioCrearDto.apellido
                 });
                 response.redirect(
                     '/usuario/vista-crear' +

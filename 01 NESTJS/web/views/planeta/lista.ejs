@@ -1,0 +1,79 @@
+<%- include('../comunes/cabecera') %>
+
+<div class='container'>
+
+    <% const existeAlerta = typeof datos.alerta !== 'undefined'%>
+    <% if(existeAlerta){%>
+        <div class="alert alert-danger" role="alert">
+            <%= datos.alerta%>
+        </div>
+    <%}%>
+    <h1>Lista Planetas</h1>
+    <form action='/planeta/lista-planetas' method='get'>
+        <div class="mb-3">
+            <label for="busqueda" class="form-label">
+                Busqueda
+            </label>
+            <!-- Viajar como parametro de consulta con el name (en este caso busqueda)    -->
+            <input placeholder="Ej: Mercurio"
+                   type="text"
+                   name="busqueda"
+                   class="form-control"
+                   id="busqueda"
+                   aria-describedby="ayudaBusqueda">
+            <div id="ayudaBusqueda" class="form-text">
+                Puede buscar por nombre
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary w-100">Buscar</button>
+    </form>
+    <div>
+        <a href='/planeta/vista-crear'>
+            <button class='btn btn-success'>
+                Crear nuevo planeta
+            </button>
+        </a>
+    </div>
+    <table class="table text-center">
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Nombre</th>
+            <th scope="col">Descubrimiento</th>
+            <th scope="col">Diametro</th>
+            <th scope="col">Habitado</th>
+            <th scope="col">Gravedad</th>
+            <th scope="col">Eliminar</th>
+            <th scope="col">Actualizar</th>
+        </tr>
+        </thead>
+        <tbody>
+        <% datos.planetas.forEach( (objeto) => { %>
+            <tr>
+                <th><%= objeto.id %></th>
+                <th><%= objeto.nombre %></th>
+                <th><%= objeto.descubrimiento %></th>
+                <th><%= objeto.diametro %></th>
+                <th><%= objeto.habitado %></th>
+                <th><%= objeto.gravedad %></th>
+                <th>
+                    <form   action='/planeta/eliminar-planeta/<%= objeto.id %>'
+                            method='post'>
+                        <button class='btn btn-danger'>Eliminar</button>
+                    </form>
+                </th>
+                <th>
+                    <form   action='/planeta/actualizar-planeta/<%= objeto.id %>'
+                            method='post'>
+                        <button class='btn btn-info'>Actualizar</button>
+                    </form>
+                </th>
+            </tr>
+        <% } ) %>
+        </tbody>
+    </table>
+</div>
+
+
+
+<%- include('../comunes/footer') %>

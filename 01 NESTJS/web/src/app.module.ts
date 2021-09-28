@@ -4,10 +4,11 @@ import { AppService } from './app.service';
 import { PrismaService } from './prisma.service';
 import {UsuarioModule} from "./usuario/usuario.module";
 import {UsuarioService} from "./usuario/usuario.service";
+import {PlanetaModule} from "./planeta/planeta.module";
 
 @Module({
     imports: [ //modulo importados
-        UsuarioModule,
+        UsuarioModule,PlanetaModule
     ],
     controllers: [//controladores de este modulo
         AppController,

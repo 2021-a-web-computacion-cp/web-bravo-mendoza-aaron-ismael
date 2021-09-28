@@ -26,6 +26,11 @@ model Mascota {
 }
 
 model Planeta {
-  id                Int         @id @default(autoincrement())
-  nombre            String
-  descubrimiento
+  id                    Int         @id @default(autoincrement())
+  nombre                String
+  descubrimiento        Int
+  diametro              Float
+  habitado              Boolean     @default(false)
+  gravedad              Float
+
+}

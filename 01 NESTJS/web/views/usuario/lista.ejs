@@ -3,13 +3,14 @@
 <!--Mover link bootstrap a la cabecera-->
 <!--abajo de la etiqueta title-->
 <div class='container'>
+
     <% const existeAlerta = typeof datos.alerta !== 'undefined'%>
     <% if(existeAlerta){%>
         <div class="alert alert-danger" role="alert">
             <%= datos.alerta%>
         </div>
     <%}%>
-    <h1>Lista</h1>
+    <h1>Lista Usuarios</h1>
     <form action='/usuario/lista-usuarios' method='get'>
         <div class="mb-3">
             <label for="busqueda" class="form-label">

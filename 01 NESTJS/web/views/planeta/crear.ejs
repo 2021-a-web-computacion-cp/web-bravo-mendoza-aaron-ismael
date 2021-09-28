@@ -1,0 +1,97 @@
+<%- include('../comunes/cabecera') %>
+
+<div class='container'>
+    <!--  !== ! = =      -->
+    <% const existeMensaje = typeof datos.mensaje !== 'undefined'%>
+    <% if(existeMensaje){%>
+        <div class="alert alert-success" role="alert">
+            <%= datos.mensaje%>
+        </div>
+    <%}%>
+
+    <% const existeAlerta = typeof datos.alerta !== 'undefined'%>
+    <% if(existeAlerta){%>
+        <div class="alert alert-danger" role="alert">
+            <%= datos.alerta%>
+        </div>
+    <%}%>
+    <h1>Crear planeta</h1>
+    <form action='/planeta/crear-planeta-formulario' method='post'>
+        <div class="mb-3">
+            <label for="nombre" class="form-label">
+                Nombre*
+            </label>
+            <input placeholder="Ej: Mercurio"
+                   type="text"
+                   name="nombre"
+                   class="form-control"
+                   id="nombre"
+                   aria-describedby="ayudaNombre">
+            <div id="ayudaNombre" class="form-text">
+                Ingrese el nombre.
+            </div>
+        </div>
+        <div class="mb-3">
+            <label for="descubrimiento" class="form-label">
+                Año de descubrimiento
+            </label>
+            <input placeholder="Ej: 1950"
+                   type="text"
+                   name="descubrimiento"
+                   class="form-control"
+                   id="descubrimiento"
+                   aria-describedby="ayudaDescubrimiento">
+            <div id="ayudaDescubrimiento" class="form-text">
+                Entre 1901 y 2021
+            </div>
+        </div>
+        <div class="mb-3">
+            <label for="diametro" class="form-label">
+                Diametro
+            </label>
+            <input placeholder="Ej: 4000"
+                   type="text"
+                   name="diametro"
+                   class="form-control"
+                   id="diametro"
+                   aria-describedby="ayudaDiametro">
+            <div id="ayudaDiametro" class="form-text">
+                El valor debe ser mayor a 4000
+            </div>
+        </div>
+        <div class="mb-3">
+            <label for="habitado" class="form-label">
+                Habitado
+            </label>
+            <select name="habitado"
+                    class="form-control"
+                    id="habitado"
+                    aria-describedby="ayudaHabito">
+                <option value="true">Habitado</option>
+                <option value="false">No habitado</option>
+            </select>
+            <div id="ayudaHabito" class="form-text">
+                El planeta está habitado?
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label for="gravedad" class="form-label">
+                Gravedad
+            </label>
+            <input placeholder="Ej: 9.8"
+                   type="text"
+                   name="gravedad"
+                   class="form-control"
+                   id="gravedad"
+                   aria-describedby="ayudaGravedad">
+            <div id="ayudaGravedad" class="form-text">
+                Ingrese un valor numérico
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary w-100">Guardar</button>
+    </form>
+</div>
+
+<%- include('../comunes/footer') %>

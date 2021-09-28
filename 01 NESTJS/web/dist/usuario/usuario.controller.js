@@ -30,8 +30,8 @@ let UsuarioController = class UsuarioController {
         usuarioCrearDto.apellido = parametrosCuerpo.apellido;
         usuarioCrearDto.fechaCreacion = parametrosCuerpo.fechaCreacion;
         const usuario = {
-            nombre: parametrosCuerpo.nombre,
-            apellido: parametrosCuerpo.apellido
+            nombre: usuarioCrearDto.nombre,
+            apellido: usuarioCrearDto.apellido
         };
         const parametrosActualizar = {
             id: Number(parametrosRuta.idUsuario),
@@ -90,8 +90,8 @@ let UsuarioController = class UsuarioController {
             }
             else {
                 const respuestaUsuario = await this.usuarioService.crearUno({
-                    nombre: parametrosCuerpo.nombre,
-                    apellido: parametrosCuerpo.apellido,
+                    nombre: usuarioCrearDto.nombre,
+                    apellido: usuarioCrearDto.apellido
                 });
                 response.redirect('/usuario/vista-crear' +
                     '?mensaje=Se creo el usuario ' +
